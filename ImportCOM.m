@@ -10,12 +10,12 @@ if thermoino == 1
         t.com.thermoBaud    = 115200;
         
     elseif strcmp(hostname,'isn0068ebea3a78')
-        addpath('C:\Users\alexandra\Documents\MATLAB\toolbox\Thermoino');
+        addpath(fullfile(t.toolboxPath,'Thermoino'));
         t.com.thermoPort    = 'COM5';
         t.com.thermoBaud    = 115200;
         
     else
-        addpath('C:\Users\Mari Feldhaus\Documents\MATLAB\thermoino');
+        addpath(fullfile(t.toolboxPath,'thermoino'));
         t.com.thermoPort    = 'COM5';
         t.com.thermoBaud    = 115200;
         
@@ -27,7 +27,7 @@ elseif thermoino == 2
     t.com.CEDaddress  = 888;
     t.com.CEDduration = 0.005;
     
-    addpath('C:\Users\Mari Feldhaus\Documents\MATLAB\IO_64bit');
+    addpath(fullfile(t.toolboxPath,'IO_64bit'));
     config_io;
     outp(t.com.CEDaddress,0);
     
@@ -44,7 +44,7 @@ if SCR == 1
    
     t.com.SCRduration     = 0.005;
     
-    addpath('C:\Users\Mari Feldhaus\Documents\MATLAB\IO_64bit');
+    addpath(fullfile(t.toolboxPath,'IO_64bit'));
     
     config_io;
 %     outp(com.CEDaddress,0);

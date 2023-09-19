@@ -12,7 +12,7 @@
         d.ITI = sITIJitter(randperm(length(sITIJitter)));
 %         d.firstITI = d.ITIs(end); % the last ITI will be ignored anyway, so we may as well use it as the first
         
-        d.Cue = sCueJitter(randperm(length(sCueJitter)));
+        d.cue = sCueJitter(randperm(length(sCueJitter)));
 %         d.firstCue = d.Cues(end); % the last cue will be ignored anyway, so we may as well use it as the first
         
     end

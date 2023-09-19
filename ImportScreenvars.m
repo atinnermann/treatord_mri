@@ -28,8 +28,8 @@ t.disp.sizeCross              = 20;
 t.disp.white                  = [255 255 255];
 t.disp.red                    = [255 0 0];
 
-t.disp.Fix1                   = [t.disp.midpoint(1)-t.disp.sizeCross t.disp.startY-t.disp.widthCross t.disp.midpoint(1)+t.disp.sizeCross t.disp.startY+t.disp.widthCross];
-t.disp.Fix2                   = [t.disp.midpoint(1)-t.disp.widthCross t.disp.startY-t.disp.sizeCross t.disp.midpoint(1)+t.disp.widthCross t.disp.startY+t.disp.sizeCross];
+t.disp.fix1                   = [t.disp.midpoint(1)-t.disp.sizeCross t.disp.startY-t.disp.widthCross t.disp.midpoint(1)+t.disp.sizeCross t.disp.startY+t.disp.widthCross];
+t.disp.fix2                   = [t.disp.midpoint(1)-t.disp.widthCross t.disp.startY-t.disp.sizeCross t.disp.midpoint(1)+t.disp.widthCross t.disp.startY+t.disp.sizeCross];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% Default parameters
 

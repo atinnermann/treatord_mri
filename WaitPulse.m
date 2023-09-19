@@ -1,4 +1,4 @@
- function [secs]=WaitPulse(keycode,n)
+ function [secs]=wait_pulse(t,keycode,n)
         %[secs]=WaitPulse(keycode,n)
         %
         %   This function waits for the Nth upcoming pulse. If N=1, it will wait for
@@ -17,11 +17,11 @@
             pulse = 0;
             dummy = [];
             while pulse < n
-                dummy         = KbTriggerWait(keycode,p.ptb.device);
+                dummy         = KbTriggerWait(keycode);
                 pulse         = pulse + 1;
                 secs(pulse+1) = dummy;
                 fprintf('Waiting for dummy scan %d\n',pulse);
-                putLog(dummy,num2str(pulse));
+                LogEvents(t,dummy,['Dummy scan ' num2str(pulse)]);
             end
         else
             secs = GetSecs;

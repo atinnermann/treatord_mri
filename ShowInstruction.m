@@ -50,10 +50,10 @@ elseif section == 4
 elseif section == 5
     fprintf('Ready CHANGE THERMODE POSITION protocol.\n');
     heightText = t.disp.startY-t.disp.lineheight;
-    [~, heightText]=DrawFormattedText(t.disp.wHandle,'Die Thermode wird nun umgesetzt','center',heightText,t.disp.white);
+    [~, heightText]=DrawFormattedText(t.disp.wHandle,'Die Thermode wird nun umgesetzt.','center',heightText,t.disp.white);
     [~, heightText]=DrawFormattedText(t.disp.wHandle,' ','center', heightText+t.disp.lineheight,t.disp.white);
-    [~, heightText]=DrawFormattedText(t.disp.wHandle,'Danach testen wir noch einmal in einem Block die','center',heightText+t.disp.lineheight,t.disp.white);
-    [~, heightText]=DrawFormattedText(t.disp.wHandle,'mittelstarke Behandlung','center', heightText+t.disp.lineheight,t.disp.white);
+    [~, heightText]=DrawFormattedText(t.disp.wHandle,'Danach testen wir nochmal die','center',heightText+t.disp.lineheight,t.disp.white);
+    [~, heightText]=DrawFormattedText(t.disp.wHandle,'mittelstarke Behandlung.','center', heightText+t.disp.lineheight,t.disp.white);
 elseif section == 6
     heightText = t.disp.startY;
     [~, heightText]=DrawFormattedText(t.disp.wHandle,'Gleich geht es los...','center',heightText,t.disp.white);

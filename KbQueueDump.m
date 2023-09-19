@@ -3,8 +3,8 @@ function [keycode, secs] = KbQueueDump
         keycode = [];
         secs    = [];
         pressed = [];    
-        while KbEventAvail(p.ptb.device)
-            [evt, n]   = KbEventGet(p.ptb.device);
+        while KbEventAvail()
+            [evt, n]   = KbEventGet();
             n          = n + 1;
             keycode(n) = evt.Keycode;
             pressed(n) = evt.Pressed;

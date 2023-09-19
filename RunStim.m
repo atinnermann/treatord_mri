@@ -1,6 +1,6 @@
-function t = RunStim(t,temp,timings,nBlock)
+function t = RunStim(t,temp,timings,nCond,nBlock)
 
-t.tmp.scaleInitVAS(:,nBlock) = round(26+(76-26).*rand(t.test.nTrials,1));
+t.tmp.scaleInitVAS(:,nCond) = round(26+(76-26).*rand(t.test.nTrials,1));
 
 for nTrial = 1:t.test.nTrials
     
@@ -10,8 +10,8 @@ for nTrial = 1:t.test.nTrials
     
     %first ITI
     if nTrial == 1
-        Screen('FillRect', t.disp.wHandle, t.disp.white, t.disp.Fix1);
-        Screen('FillRect', t.disp.wHandle, t.disp.white, t.disp.Fix2);
+        Screen('FillRect', t.disp.wHandle, t.disp.white, t.disp.fix1);
+        Screen('FillRect', t.disp.wHandle, t.disp.white, t.disp.fix2);
         tITIStart = Screen('Flip',t.disp.wHandle);
         t = LogEvents(t,tITIStart, 'FirstITI');
         
@@ -25,21 +25,21 @@ for nTrial = 1:t.test.nTrials
     
     %cue
     if t.test.cueing == 1 % else we don't want the red cross
-        Screen('FillRect', t.disp.wHandle, t.disp.red, t.disp.Fix1);
-        Screen('FillRect', t.disp.wHandle, t.disp.red, t.disp.Fix2);
+        Screen('FillRect', t.disp.wHandle, t.disp.red, t.disp.fix1);
+        Screen('FillRect', t.disp.wHandle, t.disp.red, t.disp.fix2);
         tCueOn = Screen('Flip',t.disp.wHandle);
         t = LogEvents(t,tCueOn, 'CueOnset');
 
-        fprintf('Cue %2.1f seconds\n',timings.Cue(nTrial,nBlock));
-        while GetSecs < tCueOn + timings.Cue(nTrial,nBlock)
+        fprintf('Cue %2.1f seconds\n',timings.cue(nTrial,nCond));
+        while GetSecs < tCueOn + timings.cue(nTrial,nCond)
             [abort] = LoopBreaker(t.keys);
             if abort; return; end
         end
     end
     
     %pain
-    Screen('FillRect', t.disp.wHandle, t.disp.red, t.disp.Fix1);
-    Screen('FillRect', t.disp.wHandle, t.disp.red, t.disp.Fix2);
+    Screen('FillRect', t.disp.wHandle, t.disp.red, t.disp.fix1);
+    Screen('FillRect', t.disp.wHandle, t.disp.red, t.disp.fix2);
     tHeatOn = Screen('Flip',t.disp.wHandle);
     t = LogEvents(t,tHeatOn, 'HeatOnset');
     if t.com.SCR == 1
@@ -57,25 +57,22 @@ for nTrial = 1:t.test.nTrials
     fprintf('VAS...\n');
     tVASOn = GetSecs;
     t = LogEvents(t,tVASOn, 'VASOnset');
-    t = VASScale(t,nTrial,nBlock);
+    t = VASScale(t,nTrial,nCond,nBlock);
     
-    %save results
-    save(t.save.fileName, 't')
-    
-    rateDur = t.log.data.reactionTime(nTrial,nBlock);
+    rateDur = t.log.data.reactionTime(nTrial,nCond);
     
     %ITI
-    Screen('FillRect', t.disp.wHandle, t.disp.white, t.disp.Fix1);
-    Screen('FillRect', t.disp.wHandle, t.disp.white, t.disp.Fix2);
+    Screen('FillRect', t.disp.wHandle, t.disp.white, t.disp.fix1);
+    Screen('FillRect', t.disp.wHandle, t.disp.white, t.disp.fix2);
     tITIOn = Screen('Flip',t.disp.wHandle);
     t = LogEvents(t,tITIOn, 'ITIOnset');
     
     if nTrial == t.test.nTrials
         sITIRemaining = t.test.lastITI;
     elseif t.test.debug == 1
-        sITIRemaining = t.test.Timings.ITI(nTrial,nBlock);
+        sITIRemaining = t.test.Timings.ITI(nTrial,nCond);
     else
-        sITIRemaining = t.test.Timings.ITI(nTrial,nBlock)-rateDur;
+        sITIRemaining = t.test.Timings.ITI(nTrial,nCond)-rateDur;
     end
     
     %fprintf('ITI start at %1.1fs\n',GetSecs-tStartScript);
@@ -85,7 +82,7 @@ for nTrial = 1:t.test.nTrials
         if abort; return; end
     end
     
-   !!!!!!!! [keycode, secs] = KbQueueDump; %this contains both the pulses and keypresses.
+    [keycode, secs] = KbQueueDump; %this contains both the pulses and keypresses.
     pulses = (keycode == t.keys.name.trigger);
     if any(pulses) %log trigger only if there was one
         pulses = pulses(pulses==1);
@@ -96,7 +93,10 @@ for nTrial = 1:t.test.nTrials
         end
     end
     KbQueueFlush;
-            
+    
+    %save results
+    save(t.save.fileName, 't')
+    
     if abort
         QuickCleanup;
         return;
