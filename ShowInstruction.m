@@ -35,7 +35,7 @@ elseif section == 3
     [~, heightText]=DrawFormattedText(t.disp.wHandle,'8 Reize TENS AUS','center',heightText+t.disp.lineheight,t.disp.white);
     [~, heightText]=DrawFormattedText(t.disp.wHandle,'8 Reize TENS EIN','center',heightText+t.disp.lineheight,t.disp.white);
 elseif section == 4
-    if strcmp(t.disp.hostname,'stimpc1')
+    if strcmp(t.log.hostname,'stimpc1')
         keyMoreLessPainful = 'des linken/rechten Knopfes';
         keyConfirm = 'dem mittleren oberen Knopf';
     else
@@ -65,11 +65,13 @@ elseif section == 8
     [~, heightText]=DrawFormattedText(t.disp.wHandle,'Ende des Experiments','center',heightText,t.disp.white);
 end
 
-introTextTime = Screen('Flip',t.disp.wHandle);
+tIntroText = Screen('Flip',t.disp.wHandle);
 
 fprintf('Displaying instructions...');
 countedDown = 1;
 
+t = LogEvents(t,tIntroText, ['IntroTextOn' num2str(section)]);
+ 
 while 1
     [keyIsDown, ~, keyCode] = KbCheck();
     if keyIsDown
@@ -82,12 +84,12 @@ while 1
     end
     
     if displayDuration == 1
-        [countedDown] = CountDown(GetSecs-introTextTime,countedDown,'.');
+        [countedDown] = CountDown(GetSecs-tIntroText,countedDown,'.');
     end
 end
 
 if displayDuration == 1
-    fprintf('\nInstructions were displayed for %d seconds.\n',round(GetSecs-introTextTime,0));
+    fprintf('\nInstructions were displayed for %d seconds.\n',round(GetSecs-tIntroText,0));
     Screen('Flip',t.disp.wHandle);
 end
 

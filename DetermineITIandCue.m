@@ -9,7 +9,7 @@
         if isempty(sCueJitter) sCueJitter(nStims)=mean(mMCJ); end % then max(mMCJ)==min(mMCJ)
         
         % construct ITI list matching the stimulus sequence
-        d.ITI = sITIJitter(randperm(length(sITIJitter)));
+        d.iti = sITIJitter(randperm(length(sITIJitter)));
 %         d.firstITI = d.ITIs(end); % the last ITI will be ignored anyway, so we may as well use it as the first
         
         d.cue = sCueJitter(randperm(length(sCueJitter)));

@@ -16,7 +16,7 @@ highLabelRect       = [axesRect(3)-activeAddon_width*4,t.disp.midpoint(2)-active
 ticPositions        = linspace(t.disp.midpoint(1) - scaleWidth/2,t.disp.midpoint(1) + scaleWidth/2-lineWidth,nRatingSteps);
 activeTicRects      = [ticPositions-activeAddon_width;ones(1,nRatingSteps)*t.disp.midpoint(2)-activeAddon_height;ticPositions + lineWidth+activeAddon_width;ones(1,nRatingSteps)*t.disp.midpoint(2)+activeAddon_height];
 
-currentRating   = t.tmp.scaleInitVAS(nTrial,nCond);
+currentRating   = t.log.scaleInitVAS(nTrial,nCond);
 finalRating     = currentRating;
 reactionTime    = 0;
 response        = 0;

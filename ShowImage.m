@@ -41,9 +41,9 @@ Screen('DrawTexture', t.disp.wHandle, img,[],sizeImage);
 timeImgOn = Screen('Flip',t.disp.wHandle);
 
 if type == 1
-    LogEvents(t,timeImgOn,['Run_Image_On_',(nRun)]);
+    t = LogEvents(t,timeImgOn,['BlockImage ',num2str(nRun)]);
 elseif type == 2
-    LogEvents(t,timeImgOn,['Frequency_Image_On_Cond',t.test.condOrder(nBlock)]);
+    t = LogEvents(t,timeImgOn,['FreqImage ',num2str(t.test.freqOrder(nBlock))]);
 end
 
 while GetSecs < timeImgOn + dur; end

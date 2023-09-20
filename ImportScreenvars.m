@@ -1,6 +1,5 @@
-function t = ImportScreenvars(t,debug,hostname)
+function t = ImportScreenvars(t,debug)
 
-t.disp.hostname               = hostname;
 t.disp.screens                = Screen('Screens');                  % Find the number of the screen to be opened
 t.disp.screenNumber           = max(t.disp.screens);                     % The maximum is the second monitor
 t.disp.screenRes              = Screen('resolution',t.disp.screenNumber);
@@ -10,7 +9,7 @@ if debug == 1
     PsychDebugWindowConfiguration(0,0.5);                             % Make everything transparent for debugging purposes.
     t.disp.window             = [0 0 t.disp.screenRes.width*0.6 t.disp.screenRes.height*0.6];
 else
-    ListenChar(2);
+%     ListenChar(2);
     HideCursor(t.disp.screenNumber);
     t.disp.window             = [0 0 t.disp.screenRes.width t.disp.screenRes.height];
 end
@@ -19,7 +18,7 @@ t.disp.midpoint               = [t.disp.window(3)/2 t.disp.window(4)/2];   % Fin
 t.disp.startY                 = t.disp.window(4)/2;
 
 t.disp.fontname               = 'Verdana';
-t.disp.fontsize               = 20; %30; %18;
+t.disp.fontsize               = 24; %30; %18;
 t.disp.linespace              = 8;
 t.disp.lineheight             = t.disp.fontsize + t.disp.linespace;
 t.disp.backgr                 = [90 90 90];

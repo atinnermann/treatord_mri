@@ -31,7 +31,7 @@ hostname        = deblank(hostname);
 
 if strcmp(hostname,'stimpc1')
     basePath    = 'D:\USER\tinnermann\TreatOrder\Paradigma\';
-    toolboxPath = 'D:\USER\tinnermann\TreatOrder\Paradigma\Toolbox';
+    toolboxPath = '';
 elseif strcmp(hostname,'isn0068ebea3a78')
     basePath    = 'C:\Users\alexandra\Documents\Projects\TreatOrder\Paradigma\';
     toolboxPath = 'C:\Users\alexandra\Documents\MATLAB\toolbox';
