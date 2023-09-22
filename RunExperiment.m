@@ -30,8 +30,8 @@ end
 hostname        = deblank(hostname);
 
 if strcmp(hostname,'stimpc1')
-    basePath    = 'D:\USER\tinnermann\TreatOrder\Paradigma\';
-    toolboxPath = 'D:\USER\tinnermann\TreatOrder\Paradigma\Toolbox';
+    basePath    = 'D:\tinnermann\TreatOrd';
+    toolboxPath = 'D:\tinnermann\TreatOrd\Toolbox';
 elseif strcmp(hostname,'isn0068ebea3a78')
     basePath    = 'C:\Users\alexandra\Documents\Projects\TreatOrder\Paradigma\';
     toolboxPath = 'C:\Users\alexandra\Documents\MATLAB\toolbox';
@@ -60,7 +60,7 @@ if nRun == 1
     calibPath        = fullfile(t.save.basePath,'Calib','LogfilesCalib');
     t.save.calibFile = fullfile(calibPath,sprintf('Sub%02.2d',subID),sprintf('Sub%02.2d_tVAS.mat',subID));
     
-    if isfile(t.save.calibFile)
+    if exist(t.save.calibFile,'file')
         v = load(t.save.calibFile);
         yn = input('Do you want to use the existing mat file? (y/n)\n','s');
         if strcmp(yn,'y')
@@ -80,7 +80,7 @@ if nRun == 1
         elseif strcmp(yn,'n')
             t.test.tVAS = input('Please enter tVAS in one vector from low to high.\n');
         end
-    elseif ~isfile(t.save.calibFile) && toggleDebug == 0
+    elseif ~exist(t.save.calibFile,'file') && toggleDebug == 0
         t.test.tVAS = input('Please enter temps in one vector from low to high.\n');
     elseif toggleDebug == 1
         t.test.tVAS      = [42 42.5 43 43.5];
@@ -102,14 +102,14 @@ if nRun == 1
     x = load('randOrder.mat');
     
     if x.randOrder(subID) == 1
-        t.test.stimOrder = "decreasing";
+        t.test.stimOrder = 'decreasing';
         t.test.condOrder = [1,4,1,3,1,2,1,3,1,3];
         t.test.freqOrder = [0,150,0,100,0,50,0,100,0,100];
         t.test.VASOrder  = [70,25,70,40,70,55,70,40,70,40];
         t.test.tempOrder = [t.test.tVAS(4),t.test.tVAS(1),t.test.tVAS(4),t.test.tVAS(2),t.test.tVAS(4),t.test.tVAS(3),t.test.tVAS(4),t.test.tVAS(2),t.test.tVAS(4),t.test.tVAS(2)];
         t.test.colOrder  = [t.test.stimColor(1),t.test.stimColor(2),t.test.stimColor(1),t.test.stimColor(3),t.test.stimColor(1),t.test.stimColor(4),t.test.stimColor(1),t.test.stimColor(3),t.test.stimColor(1),t.test.stimColor(3)];
     elseif x.randOrder(subID) == 0
-        t.test.stimOrder = "increasing";
+        t.test.stimOrder = 'increasing';
         t.test.condOrder = [1,2,1,3,1,4,1,3,1,3];
         t.test.freqOrder = [0,50,0,100,0,150,0,100,0,100];
         t.test.VASOrder  = [70,55,70,40,70,25,70,40,70,40];

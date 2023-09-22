@@ -22,6 +22,7 @@ else
     t.keys.name.abort               = KbName('Escape');
     t.keys.name.pause               = KbName('Space');
     t.keys.name.confirm             = KbName('Return');
+    t.keys.name.resume              = KbName('return');
     t.keys.name.right               = KbName('RightArrow');
     t.keys.name.left                = KbName('LeftArrow');
     t.keys.name.down                = KbName('DownArrow');

@@ -1,6 +1,6 @@
 function t = ShowImage(t,type,nRun,nBlock,dur)
 
-b = 0.3;
+b = 0.25;
 if type == 1
     fprintf('Visual stimulus presentation - Block %d image.\n',nRun);
     
