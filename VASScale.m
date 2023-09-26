@@ -3,7 +3,7 @@ function t = VASScale(t,nTrial,nCond,nBlock)
 
 %% Default values
 nRatingSteps    = 101;
-scaleWidth      = t.disp.window(3)*0.35; %700; 
+scaleWidth      = t.disp.window(3)*0.3; %700; 
 textSize        = 18; 
 lineWidth       = 6;
 
