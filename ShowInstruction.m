@@ -16,8 +16,8 @@ if section == 1
 elseif section == 2
     fprintf('Ready PREEXPOSURE protocol.\n');
     heightText = t.disp.startY-t.disp.lineheight*2;
-    [~, heightText]=DrawFormattedText(t.disp.wHandle,'Gleich erhalten Sie über die Thermode einen','center',heightText,t.disp.white);
-    [~, heightText]=DrawFormattedText(t.disp.wHandle,'langen Hitzereizen, der leicht schmerzhaft sein kann.','center',heightText+t.disp.lineheight,t.disp.white);
+    [~, heightText]=DrawFormattedText(t.disp.wHandle,'Gleich erhalten Sie über die Thermode einige','center',heightText,t.disp.white);
+    [~, heightText]=DrawFormattedText(t.disp.wHandle,'Hitzereize, die leicht schmerzhaft sein können.','center',heightText+t.disp.lineheight,t.disp.white);
 elseif section == 3
     heightText = t.disp.startY-t.disp.lineheight*3;
     [~, heightText]=DrawFormattedText(t.disp.wHandle,'Wir testen nun den Einfluss verschiedener','center',heightText,t.disp.white);
@@ -47,8 +47,7 @@ elseif section == 5
     heightText = t.disp.startY-t.disp.lineheight;
     [~, heightText]=DrawFormattedText(t.disp.wHandle,'Die Thermode wird nun umgesetzt.','center',heightText,t.disp.white);
     [~, heightText]=DrawFormattedText(t.disp.wHandle,' ','center', heightText+t.disp.lineheight,t.disp.white);
-    [~, heightText]=DrawFormattedText(t.disp.wHandle,'Danach testen wir nochmal die','center',heightText+t.disp.lineheight,t.disp.white);
-    [~, heightText]=DrawFormattedText(t.disp.wHandle,'mittelstarke Behandlung.','center', heightText+t.disp.lineheight,t.disp.white);
+    [~, heightText]=DrawFormattedText(t.disp.wHandle,'Bitte ganz ruhig liegen bleiben!','center',heightText+t.disp.lineheight,t.disp.white);
 elseif section == 6
     heightText = t.disp.startY;
     [~, heightText]=DrawFormattedText(t.disp.wHandle,'Gleich geht es los...','center',heightText,t.disp.white);

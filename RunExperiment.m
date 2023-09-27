@@ -6,7 +6,7 @@ function [abort] = RunExperiment(subID,nRun,TENS,preExp)
 clear mex global
 clc
 
-thermoino       = 0; % 0 for no thermoino, 1 for thermoino connected; 2: send trigger directly to thermode via e.g. outp
+thermoino       = 1; % 0 for no thermoino, 1 for thermoino connected; 2: send trigger directly to thermode via e.g. outp
 
 if nargin == 0
     subID = input('Please enter subject ID.\n');
@@ -41,7 +41,7 @@ else
 end
 
 expPath     = fullfile(basePath,'ExpMRI');
-savePath    = fullfile(expPath,'LogfilesExp',sprintf('Sub%02.2d',subID));
+savePath    = fullfile(basePath,'LogfilesExp',sprintf('Sub%02.2d',subID));
 fileName    = sprintf('Sub%02.2d_TreatOrd_Exp_Vars',subID);
 
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -49,7 +49,7 @@ fileName    = sprintf('Sub%02.2d_TreatOrd_Exp_Vars',subID);
 %%%%%%%%%%%%%%%%%%%%%%%
 
 if nRun == 1
-    warning('Start thermode programme AT_TreatOrd.');
+    warning('Start thermode programme AT_TreatOrd_Exp.');
         
     t.save.basePath     = basePath;
     t.save.toolboxPath  = toolboxPath;
@@ -134,8 +134,7 @@ fileNameRun     = [sprintf('Sub%02.2d_TreatOrd_Exp_Run%d_',subID,nRun) datestr(n
 t.save.fileName = fullfile(t.save.filePath,fileNameRun);
 
 if ismember(nRun,t.test.chTherm)
-    ind = find(t.test.chTherm==nRun);
-    input(sprintf('Change thermode to skin patch %d and press enter when ready.',t.test.skinPatch(ind+1)));
+    input(sprintf('Change thermode to skin patch %d and press enter when ready.',t.test.skinPatch(t.test.chTherm==nRun)));
 end
 
 % needs to be loaded every time since path is added
@@ -165,8 +164,6 @@ t.disp.slack = Screen('GetFlipInterval',t.disp.wHandle)./2;
 t.log.eventCount = 0;
 t.log.rating = [];
 t.log.cond = [];
-t.mri.pulses = 0;
-t.mri.times = 0;
 
 
 fprintf('\n=======Experiment starts=======\n\n');
@@ -177,7 +174,7 @@ t = LogEvents(t,t.log.tIntroExp, 'IntroStart');
 
 fprintf('\n======= Run %d =======\n',nRun);
 
-%check if thermode was changed for this run to apply preexposure and TENS
+%check if thermode was changed befor this run to apply preexposure and TENS
 if ismember(nRun,t.test.chTherm)
     
     if preExp == 1
@@ -189,13 +186,13 @@ if ismember(nRun,t.test.chTherm)
         [abort] = ShowInstruction(t,1,1); %"TENS calibration"
         if t.com.thermoino == 1
             WaitSecs(2);
-            SendTrigger(t.com.CEDaddress,t.com.lpt.Digi,t.com.CEDduration);
             fprintf('Applying electrical stimulation\n');
-            UseThermoino('Shock',1,2000);
+            SendTrigger(t.com.CEDaddress,t.com.lpt.digi,t.com.CEDduration);
+            SendTrigger(t.com.CEDaddress,t.com.lpt.shock,t.com.shockDuration);
             WaitSecs(2);
-            SendTrigger(t.com.CEDaddress,t.com.lpt.Digi,t.com.CEDduration);
             fprintf('Applying electrical stimulation\n');
-            UseThermoino('Shock',1,2000);
+            SendTrigger(t.com.CEDaddress,t.com.lpt.digi,t.com.CEDduration);
+            SendTrigger(t.com.CEDaddress,t.com.lpt.shock,t.com.shockDuration);
             WaitSecs(2);
         end
         

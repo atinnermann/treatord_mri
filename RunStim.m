@@ -41,7 +41,7 @@ for nTrial = 1:t.test.nTrials
     Screen('FillRect', t.disp.wHandle, t.disp.red, t.disp.fix1);
     Screen('FillRect', t.disp.wHandle, t.disp.red, t.disp.fix2);
     tHeatOn = Screen('Flip',t.disp.wHandle);
-    SendTrigger(t.com.CEDaddress,t.com.lpt.Heat,t.com.CEDduration);
+    SendTrigger(t.com.CEDaddress,t.com.lpt.heat,t.com.CEDduration);
     [abort] = ApplyTemp(t,temp,t.test.stimDur);
     if abort; break; end
     t = LogEvents(t,tHeatOn, 'HeatOnset');
