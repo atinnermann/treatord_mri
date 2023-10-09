@@ -5,4 +5,5 @@ function t = CalcStimDuration(temp,dur,t)
     fallTime    = diff/t.test.fallSpeed;
 
     t.tmp.stimDuration = [riseTime dur fallTime];
+    t.tmp.rampDuration = riseTime + fallTime;
 end

@@ -21,7 +21,7 @@
                 pulse         = pulse + 1;
                 secs(pulse+1) = dummy;
                 fprintf('Waiting for dummy scan %d\n',pulse);
-                t = LogEvents(t,dummy,['DummyScan ' num2str(pulse)]);
+                t = LogEvents(t,dummy,['DummyScan' num2str(pulse)]);
             end
         else
             secs = GetSecs;

@@ -6,7 +6,7 @@ function [abort] = RunExperiment(subID,nRun,TENS,preExp)
 clear mex global
 clc
 
-thermoino       = 1; % 0 for no thermoino, 1 for thermoino connected; 2: send trigger directly to thermode via e.g. outp
+thermoino       = 0; % 0 for no thermoino, 1 for thermoino connected; 2: send trigger directly to thermode via e.g. outp
 
 if nargin == 0
     subID = input('Please enter subject ID.\n');
@@ -57,33 +57,28 @@ if nRun == 1
     mkdir(t.save.filePath);
     fprintf('Saving data to %s.\n\n',t.save.filePath);
     
-    calibPath        = fullfile(t.save.basePath,'Calib','LogfilesCalib');
+    calibPath        = fullfile(t.save.basePath,'LogfilesCalib');
     t.save.calibFile = fullfile(calibPath,sprintf('Sub%02.2d',subID),sprintf('Sub%02.2d_tVAS.mat',subID));
     
-    if exist(t.save.calibFile,'file')
+    if toggleDebug == 1
+        t.test.tVAS      = [42 42.5 43 43.5];
+    elseif exist(t.save.calibFile,'file')
         v = load(t.save.calibFile);
-        yn = input('Do you want to use the existing mat file? (y/n)\n','s');
-        if strcmp(yn,'y')
-            fit = input('Please enter fit. (lin/sig/ran/fix/man)\n','s');
-            WaitSecs(0.2);
-            if strcmp(fit,'lin')
-                t.test.tVAS = v.tVAS.lin;
-            elseif strcmp(fit,'sig')
-                t.test.tVAS = v.tVAS.sig;
-            elseif strcmp(fit,'ran')
-                t.test.tVAS = v.tVAS.ran;
-            elseif strcmp(fit,'fix')
-                t.test.tVAS = v.tVAS.fix;
-            elseif strcmp(fit,'man')
-                t.test.tVAS = v.tVAS.man;
-            end
-        elseif strcmp(yn,'n')
-            t.test.tVAS = input('Please enter tVAS in one vector from low to high.\n');
+        fit = input('Please enter fit. (lin/sig/ran/fix/man)\n','s');
+        WaitSecs(0.2);
+        if strcmp(fit,'lin')
+            t.test.tVAS = v.tVAS.lin;
+        elseif strcmp(fit,'sig')
+            t.test.tVAS = v.tVAS.sig;
+        elseif strcmp(fit,'ran')
+            t.test.tVAS = v.tVAS.ran;
+        elseif strcmp(fit,'fix')
+            t.test.tVAS = v.tVAS.fix;
+        elseif strcmp(fit,'man')
+            t.test.tVAS = v.tVAS.man;
         end
     elseif ~exist(t.save.calibFile,'file') && toggleDebug == 0
         t.test.tVAS = input('Please enter temps in one vector from low to high.\n');
-    elseif toggleDebug == 1
-        t.test.tVAS      = [42 42.5 43 43.5];
     end
     
     fprintf('The loaded temperatures for the experiment are:\n');
@@ -95,8 +90,8 @@ if nRun == 1
     a = load('randOrder_StimColors.mat');
     t.test.stimColor = a.randCols(subID,:);
     
-    b = load('randOrder_SkinPatches.mat');
-    t.test.skinPatch = b.randPatch(subID,:);
+%     b = load('randOrder_SkinPatches.mat');
+%     t.test.skinPatch = b.randPatch(subID,:);
     
     %define order of stimulation
     x = load('randOrder.mat');
@@ -133,9 +128,9 @@ end
 fileNameRun     = [sprintf('Sub%02.2d_TreatOrd_Exp_Run%d_',subID,nRun) datestr(now,30)];
 t.save.fileName = fullfile(t.save.filePath,fileNameRun);
 
-if ismember(nRun,t.test.chTherm)
-    input(sprintf('Change thermode to skin patch %d and press enter when ready.',t.test.skinPatch(t.test.chTherm==nRun)));
-end
+% if ismember(nRun,t.test.chTherm)
+%     input(sprintf('Change thermode to skin patch %d and press enter when ready.',t.test.skinPatch(t.test.chTherm==nRun)));
+% end
 
 % needs to be loaded every time since path is added
 t = ImportCOM(t,thermoino);
@@ -184,19 +179,15 @@ if ismember(nRun,t.test.chTherm)
     
     if TENS == 1
         [abort] = ShowInstruction(t,1,1); %"TENS calibration"
-        if t.com.thermoino == 1
-            WaitSecs(2);
-            fprintf('Applying electrical stimulation\n');
-            SendTrigger(t.com.CEDaddress,t.com.lpt.digi,t.com.CEDduration);
-            SendTrigger(t.com.CEDaddress,t.com.lpt.shock,t.com.shockDuration);
-            WaitSecs(2);
-            fprintf('Applying electrical stimulation\n');
-            SendTrigger(t.com.CEDaddress,t.com.lpt.digi,t.com.CEDduration);
-            SendTrigger(t.com.CEDaddress,t.com.lpt.shock,t.com.shockDuration);
-            WaitSecs(2);
-        end
-        
-        WaitSecs(0.2);
+        WaitSecs(2);
+        fprintf('Applying electrical stimulation\n');
+        SendTrigger(t.com.CEDaddress,t.com.lpt.digi,t.com.CEDduration);
+        SendTrigger(t.com.CEDaddress,t.com.lpt.shock,t.com.shockDuration);
+        WaitSecs(2);
+        fprintf('Applying electrical stimulation\n');
+        SendTrigger(t.com.CEDaddress,t.com.lpt.digi,t.com.CEDduration);
+        SendTrigger(t.com.CEDaddress,t.com.lpt.shock,t.com.shockDuration);
+        WaitSecs(2);
         Screen('Flip',t.disp.wHandle);
     end
 end
@@ -213,12 +204,14 @@ end
 
 %log exp start time
 t.log.tExpStart = GetSecs;
-t = LogEvents(t,t.log.tExpStart, 'ExperimentStart');
+t = LogEvents(t,t.log.tExpStart, 'ExpStart');
 
 % Wait for Dummy Scans
 [tDummyScans, t] = WaitPulse(t,t.keys.name.trigger,t.mri.dummy);
 t.log.tMRIStart = tDummyScans(end);
-t = LogEvents(t,t.log.tMRIStart, 'FirstTrigger');
+% fprintf('Will wait for first scannner pulses...\n');
+% t.log.tMRIStart = KbTriggerWait(t.keys.name.trigger);
+t = LogEvents(t,t.log.tMRIStart, 'FirstPulse');
 SendTrigger(t.com.CEDaddress,t.com.lpt.expStart,t.com.CEDduration);
 
 KbQueueCreate;
@@ -255,10 +248,10 @@ KbQueueRelease;
 fprintf('=================\n=================\n');
 fprintf('Waiting for last scanner pulse of experiment!...\n');
 
-lastScanTime = KbTriggerWait(t.keys.name.trigger);
-t = LogEvents(t,lastScanTime, 'LastTrigger');
+tLastScan = KbTriggerWait(t.keys.name.trigger);
+t = LogEvents(t,tLastScan, 'LastPulse');
 WaitSecs(t.mri.tr);
-t = LogEvents(t,GetSecs, 'ExperimentEnd');
+t = LogEvents(t,GetSecs, 'ExpEnd');
 
 if nCond == t.test.nRuns*t.test.condsRun
     ShowInstruction(t,8,1); %Ende des Experiments

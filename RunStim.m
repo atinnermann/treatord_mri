@@ -42,7 +42,7 @@ for nTrial = 1:t.test.nTrials
     Screen('FillRect', t.disp.wHandle, t.disp.red, t.disp.fix2);
     tHeatOn = Screen('Flip',t.disp.wHandle);
     SendTrigger(t.com.CEDaddress,t.com.lpt.heat,t.com.CEDduration);
-    [abort] = ApplyTemp(t,temp,t.test.stimDur);
+    [t,abort] = ApplyTemp(t,temp,t.test.stimDur);
     if abort; break; end
     t = LogEvents(t,tHeatOn, 'HeatOnset');
     t.log.onset.painSecs(nTrial,nCond) = tHeatOn - t.log.tMRIStart;
@@ -69,7 +69,7 @@ for nTrial = 1:t.test.nTrials
     if t.test.debug == 1
         realITI = t.test.timings.iti(nTrial,nCond);
     else
-        realITI = t.test.timings.iti(nTrial,nCond) - rateDur;
+        realITI = t.test.timings.iti(nTrial,nCond) - rateDur - t.tmp.rampDuration;
     end
     
     %fprintf('ITI start at %1.1fs\n',GetSecs-tStartScript);

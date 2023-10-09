@@ -27,8 +27,8 @@ elseif section == 3
     [~, heightText]=DrawFormattedText(t.disp.wHandle,'welche Intensität der Behandlung Sie erhalten.','center',heightText+t.disp.lineheight,t.disp.white);
     [~, heightText]=DrawFormattedText(t.disp.wHandle,' ', 'center', heightText+t.disp.lineheight, t.disp.white);
     [~, heightText]=DrawFormattedText(t.disp.wHandle,'Ein Block besteht jeweils aus:','center', heightText+t.disp.lineheight,t.disp.white);
-    [~, heightText]=DrawFormattedText(t.disp.wHandle,'8 Reize TENS AUS','center',heightText+t.disp.lineheight,t.disp.white);
-    [~, heightText]=DrawFormattedText(t.disp.wHandle,'8 Reize TENS EIN','center',heightText+t.disp.lineheight,t.disp.white);
+    [~, heightText]=DrawFormattedText(t.disp.wHandle,'10 Reize TENS AUS','center',heightText+t.disp.lineheight,t.disp.white);
+    [~, heightText]=DrawFormattedText(t.disp.wHandle,'10 Reize TENS EIN','center',heightText+t.disp.lineheight,t.disp.white);
 elseif section == 4
     if strcmp(t.log.hostname,'stimpc1')
         keyMoreLessPainful = 'des linken/rechten Knopfes';

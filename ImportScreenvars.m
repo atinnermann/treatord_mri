@@ -18,7 +18,7 @@ t.disp.midpoint               = [t.disp.window(3)/2 t.disp.window(4)/2];   % Fin
 t.disp.startY                 = t.disp.window(4)/2;
 
 t.disp.fontname               = 'Verdana';
-t.disp.fontsize               = 24; %30; %18;
+t.disp.fontsize               = 28; %30; %18;
 t.disp.linespace              = 8;
 t.disp.lineheight             = t.disp.fontsize + t.disp.linespace;
 t.disp.backgr                 = [90 90 90];

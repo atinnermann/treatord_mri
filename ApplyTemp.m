@@ -1,4 +1,4 @@
-function [abort] = ApplyTemp(t,temp,dur)
+function [t,abort] = ApplyTemp(t,temp,dur)
 
 abort = 0;
 t = CalcStimDuration(temp,dur,t);
@@ -12,6 +12,7 @@ if t.com.thermoino == 0
     end
 elseif t.com.thermoino == 1
     UseThermoino('Trigger'); % start next stimulus
+    WaitSecs(0.1);
     UseThermoino('Set',temp); % open channel for arduino to ramp up
     
     while GetSecs < tHeatOn + sum(t.tmp.stimDuration(1:2))
