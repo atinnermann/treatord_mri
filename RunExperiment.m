@@ -6,7 +6,7 @@ function [abort] = RunExperiment(subID,nRun,TENS,preExp)
 clear mex global
 clc
 
-thermoino       = 0; % 0 for no thermoino, 1 for thermoino connected; 2: send trigger directly to thermode via e.g. outp
+thermoino       = 1; % 0 for no thermoino, 1 for thermoino connected; 2: send trigger directly to thermode via e.g. outp
 
 if nargin == 0
     subID = input('Please enter subject ID.\n');
@@ -49,7 +49,7 @@ fileName    = sprintf('Sub%02.2d_TreatOrd_Exp_Vars',subID);
 %%%%%%%%%%%%%%%%%%%%%%%
 
 if nRun == 1
-    warning('Start thermode programme AT_TreatOrd_Exp.');
+%     warning('Start thermode programme AT_TreatOrd_Exp.');
         
     t.save.basePath     = basePath;
     t.save.toolboxPath  = toolboxPath;
@@ -90,9 +90,6 @@ if nRun == 1
     a = load('randOrder_StimColors.mat');
     t.test.stimColor = a.randCols(subID,:);
     
-%     b = load('randOrder_SkinPatches.mat');
-%     t.test.skinPatch = b.randPatch(subID,:);
-    
     %define order of stimulation
     x = load('randOrder.mat');
     
@@ -127,10 +124,6 @@ end
 %define file name for saving results
 fileNameRun     = [sprintf('Sub%02.2d_TreatOrd_Exp_Run%d_',subID,nRun) datestr(now,30)];
 t.save.fileName = fullfile(t.save.filePath,fileNameRun);
-
-% if ismember(nRun,t.test.chTherm)
-%     input(sprintf('Change thermode to skin patch %d and press enter when ready.',t.test.skinPatch(t.test.chTherm==nRun)));
-% end
 
 % needs to be loaded every time since path is added
 t = ImportCOM(t,thermoino);
@@ -209,8 +202,6 @@ t = LogEvents(t,t.log.tExpStart, 'ExpStart');
 % Wait for Dummy Scans
 [tDummyScans, t] = WaitPulse(t,t.keys.name.trigger,t.mri.dummy);
 t.log.tMRIStart = tDummyScans(end);
-% fprintf('Will wait for first scannner pulses...\n');
-% t.log.tMRIStart = KbTriggerWait(t.keys.name.trigger);
 t = LogEvents(t,t.log.tMRIStart, 'FirstPulse');
 SendTrigger(t.com.CEDaddress,t.com.lpt.expStart,t.com.CEDduration);
 
@@ -229,12 +220,7 @@ for condRun = 1:t.test.condsRun
     %show TENS frequency image
     t = ShowImage(t,2,nRun,nCond,t.test.imgDur);
     WaitSecs(1);
-    
-    %calculate and shuffle ITI and Cue durations
-    c = DetermineITIandCue(t.test.nTrials,t.test.iti,t.test.cue);
-    t.test.timings.iti(:,condRun) = c.iti';
-    t.test.timings.cue(:,condRun) = c.cue';
-    
+
     t = RunStim(t,t.test.tempOrder(nCond),condRun,nCond);
     
     %save struct to save all results
